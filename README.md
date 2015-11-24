@@ -1,4 +1,4 @@
-# express-redis-boilerplate
+# app-info-server
 
 #Structure
 
@@ -22,8 +22,3 @@
 ```sh
 $ npm start
 ```
-
-# Stack
-- [node_redis](https://github.com/NodeRedis/node_redis)
-- [Express](http://expressjs.com/)
-# app-info-server
