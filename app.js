@@ -2,6 +2,7 @@
 let express = require('express');
 let logger = require('morgan');
 let bodyParser = require('body-parser');
+let winston = require('winston');
 
 // Database
 let redis = require('redis');
@@ -11,7 +12,7 @@ const RDS_OPTS = {};
 let client = redis.createClient(RDS_PORT, RDS_HOST, RDS_OPTS);
 
 client.on('error', (err) => {
-  console.log(err);
+  winston.info(err);
 });
 
 let routes = require('./routes/index.js');
@@ -46,10 +47,12 @@ app.use((req, res, next) => {
 if (app.get('env') === 'development') {
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err,
-    });
+    winston.info(err.message);
+
+    // res.render('error', {
+    //   message: err.message,
+    //   error: err,
+    // });
   });
 }
 
@@ -57,10 +60,12 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {},
-  });
+  winston.info(err.message);
+
+  // res.render('error', {
+  //   message: err.message,
+  //   error: {},
+  // });
 });
 
 module.exports = app;
