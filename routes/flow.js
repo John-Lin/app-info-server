@@ -1,6 +1,7 @@
 'use strict';
 
 let express = require('express');
+let winston = require('winston');
 let router = express.Router();
 
 /*
@@ -14,7 +15,7 @@ router.post('/:id([0-9a-zA-Z]{64})', (req, res) => {
   if (req.body.id !== req.params.id) {
     // Invalid ID
     res.sendStatus(400);
-    console.log('[x] Invalid ID');
+    winston.info('[x] Invalid ID');
   }
 
   // flowInfo example
@@ -56,7 +57,7 @@ router.get('/:id([0-9a-zA-Z]{64})', (req, res) => {
   let flowID = req.params.id;
   rd.get(flowID, (err, dbRes) => {
     if (err) {
-      console.log(err);
+      winston.info(err);
       res.sendStatus(500);
     } else {
       if (!dbRes) {
@@ -75,7 +76,7 @@ router.delete('/flush', (req, res) => {
   let rd = req.rd;
   rd.flushdb((err, dbRes) => {
     if (err) {
-      console.log(err);
+      winston.info(err);
       res.sendStatus(500);
     } else {
       res.sendStatus(204);
